@@ -4,4 +4,5 @@ class RoutesName {
   static const String homeView = '/home_view';
   static const String checkView = '/check_view';
   static const String successView = '/success_view';
+  static const String settingView = '/setting_view';
 }

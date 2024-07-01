@@ -6,7 +6,7 @@ import 'package:face_recognition/res/routes/routes_name.dart';
 class SuccessServices {
 
   void successRedirection() {
-    String routesName = RoutesName.successView;
+    String routesName = RoutesName.homeView;
     Timer(const Duration(seconds: 3), () => Get.toNamed(routesName));
   }
 }

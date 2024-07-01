@@ -4,7 +4,8 @@ import 'package:face_recognition/res/routes/routes_name.dart';
 import 'package:face_recognition/view/splash_screen.dart';
 import 'package:face_recognition/view/home/home_view.dart';
 
-import '../../view/check/check_view.dart';
+import 'package:face_recognition/view/check/check_view.dart';
+import 'package:face_recognition/view/setting/setting_view.dart';
 
 class AppRoutes {
   static appRoutes() => [
@@ -21,7 +22,12 @@ class AppRoutes {
     GetPage(
         name: RoutesName.checkView,
         page: () =>  const CheckView(),
-        transition: Transition.topLevel,
+        transition: Transition.leftToRightWithFade,
+        transitionDuration: const Duration(milliseconds: 250)),
+    GetPage(
+        name: RoutesName.settingView,
+        page: () =>  const SettingView(),
+        transition: Transition.leftToRightWithFade,
         transitionDuration: const Duration(milliseconds: 250))
       ];
 }

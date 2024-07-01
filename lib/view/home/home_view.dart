@@ -17,18 +17,18 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final homeController = Get.put(HomeViewModel());
+  late HomeViewModel homeController;
 
   @override
   void initState() {
     super.initState();
-    homeController.start();
+    homeController = Get.put(HomeViewModel());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Utils.app_Bar(),
+        appBar: Utils.appBar(),
         body: Obx(() {
           if (homeController.rxRequestStatus.value == Status.ERROR) {
             if (homeController.error.value == 'No internet connection') {
@@ -42,6 +42,7 @@ class _HomeViewState extends State<HomeView> {
               });
             }
           } else if(homeController.rxRequestStatus.value == Status.LOADING) {
+            //homeController.init();
             return const Center(
               child: CircularProgressIndicator(),
             );

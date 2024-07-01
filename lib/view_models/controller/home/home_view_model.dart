@@ -1,3 +1,4 @@
+import 'package:face_recognition/res/routes/routes_name.dart';
 import 'package:face_recognition/view/check/check_view.dart';
 import 'package:get/get.dart';
 import 'dart:io';
@@ -10,11 +11,12 @@ import 'package:face_recognition/utils/utils.dart';
 import 'package:face_recognition/models/home/user_model.dart';
 
 
+
 class HomeViewModel extends GetxController {
   final _api = HomeRepository();
   RxString image = "".obs;
   final _imagePicker = ImagePicker();
-  final rxRequestStatus = Status.LOADING.obs;
+  final rxRequestStatus = Status.COMPLETED.obs;
   RxString error = ''.obs;
   File? imageUpload;
 
@@ -22,6 +24,10 @@ class HomeViewModel extends GetxController {
   void setError(String value) => error.value = value;
   void setImage(String value) => image.value = value;
   static HomeViewModel get to => Get.find();
+
+  init() {
+    setImage("");
+  }
 
   Future getImage() async {
     final pickedFile = await _imagePicker.pickImage(source: ImageSource.camera, imageQuality: 100);
@@ -39,11 +45,18 @@ class HomeViewModel extends GetxController {
       User? user;
       if (value["success"]) {
         user = User.fromJson(value['predictions'][0]);
+        var data = { 'user': user,  'image': imageUpload?.path};
+        Get.to(() => const CheckView(),
+            arguments: data, routeName: RoutesName.checkView
+        );
+        setImage("");
+      } else {
+        var data = { 'user': null,  'image': imageUpload?.path};
+        Get.to(() => const CheckView(),
+            arguments: data, routeName: RoutesName.checkView
+        );
       }
-      Get.to(
-        const CheckView(),
-        arguments: { 'user': user,  'image': imageUpload}
-      );
+
     }).onError((error, stackTrace) {
       setError(error.toString());
       setRxRequestStatus(Status.ERROR);

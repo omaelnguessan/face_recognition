@@ -7,4 +7,5 @@ abstract class BaseApiServices {
   Future<dynamic> postApi(dynamic data, String url);
 
   Future<dynamic> postFileApi(File data, String url);
+  Future<dynamic> postFileAndDataApi(File image, dynamic data, String url);
 }

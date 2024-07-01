@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:face_recognition/view_models/services/splash_services.dart';
 import 'package:face_recognition/res/assets/image_assets.dart';
-import 'package:face_recognition/res/colors/app_color.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,13 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: AppColor.backgroundColor,
-      body: Padding(
+      backgroundColor: Colors.white,
+      body:  Padding(
           padding: EdgeInsets.all(15),
           child: Center(
             child: Image(
-              image: AssetImage(ImageAssets.logoSah),
-              fit: BoxFit.cover,
+              width: 200,
+              height: 200,
+              image: AssetImage(ImageAssets.splashScreen),
+              fit: BoxFit.contain,
             ),
         ),
       ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:face_recognition/view_models/services/success_services.dart';
 import 'package:face_recognition/res/colors/app_color.dart';
 
+import '../../utils/utils.dart';
+
 class SuccessScreen extends StatefulWidget {
   const SuccessScreen({super.key});
 
@@ -21,9 +23,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.backgroundColor,
-      body: Padding(
+      appBar: Utils.appBar(),
+      body: const Padding(
         padding: EdgeInsets.all(15),
         child: Center(
           child: Column(

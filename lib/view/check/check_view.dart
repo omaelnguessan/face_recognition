@@ -10,6 +10,8 @@ import 'package:face_recognition/res/components/general_exceptions_widget.dart';
 import 'package:face_recognition/utils/utils.dart';
 import 'package:face_recognition/res/colors/app_color.dart';
 
+import '../home/home_view.dart';
+
 class CheckView extends StatefulWidget {
   const CheckView({super.key});
 
@@ -18,36 +20,44 @@ class CheckView extends StatefulWidget {
 }
 
 class _CheckViewState extends State<CheckView> {
-  final checkController = Get.put(CheckViewModel());
-  var user;
-  var image;
+  late CheckViewModel checkController;
+  late var user;
+  late String image;
+
 
   @override
   void initState() {
     super.initState();
+    checkController = CheckViewModel();
+    user =  Get.arguments["user"];
     image = Get.arguments["image"];
-    user = Get.arguments["user"];
-    if(user != null) {
+    if (user != null) {
       checkController.setUser(user);
       checkController.setRxUserStatus(Status.COMPLETED);
+      checkController.setRxRequestStatus(Status.COMPLETED);
     }
-    checkController.setRxRequestStatus(Status.COMPLETED);
-    print(user);
-  }
+
+    }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: AppColor.backgroundColor,
-        appBar: Utils.app_Bar(),
+        appBar: Utils.appBar(),
         body: Obx(() {
+          checkController.setImage(image);
           if (checkController.rxRequestStatus.value == Status.ERROR) {
             if (checkController.error.value == 'No internet connection') {
               return InternetExceptionsWidget(
-                onPress: () {},
+                onPress: () {
+                  checkController.setRxRequestStatus(Status.COMPLETED);
+                },
               );
             } else {
-              return GeneralExceptionsWidget(onPress: () {});
+              return GeneralExceptionsWidget(onPress: () {
+                Get.to(() => const HomeView());
+              });
             }
           } else if (checkController.rxRequestStatus.value == Status.LOADING) {
             return const Center(
@@ -150,7 +160,9 @@ class _CheckViewState extends State<CheckView> {
                                     ),
                                     const SizedBox(height: 20),
                                     TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        checkController.report();
+                                      },
                                       child: const Text(
                                         'Utilisez une autre méthode',
                                         style: TextStyle(
@@ -168,7 +180,7 @@ class _CheckViewState extends State<CheckView> {
                         top: -80,
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: FileImage(File(image.path)),
+                          backgroundImage: FileImage(File(image)),
                         ),
                       ),
                     ],

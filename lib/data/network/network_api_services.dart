@@ -60,6 +60,27 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  @override
+  Future postFileAndDataApi(File image,var data, String url) async {
+    dynamic responseJson;
+    File file = image;
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.files.add(await http.MultipartFile.fromPath('image', file.path));
+      request.fields.addAll(data);
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      responseJson = returnResponse(response);
+
+    } on SocketException {
+      throw InternetException('');
+    } on TimeoutException {
+      throw RequestTimeout('');
+    }
+
+    return responseJson;
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -76,6 +97,8 @@ class NetworkApiServices extends BaseApiServices {
             'Error accused while communication with server ${response.statusCode}');
     }
   }
+
+
 
 
 }
